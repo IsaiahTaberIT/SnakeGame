@@ -9,7 +9,11 @@ public class FoodScript : MonoBehaviour
     public Vector2 Bounds;
     public GameObject WallGenerator;
     public WallGenerationScript WallGenerationScript;
-    
+    //these were added later
+    public GameObject Player;
+    private HeadScript _HeadScript;
+    //
+
     public List<Vector2> ListOfEmptySquares;
     public int OddEvenFixerIntX;
     public int OddEvenFixerIntY;
@@ -20,6 +24,8 @@ public class FoodScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Player = GameObject.FindGameObjectWithTag("Player");
+        _HeadScript = Player.GetComponent<HeadScript>();
 
         WallGenerator = GameObject.Find("WallGenerator");
         WallGenerationScript = WallGenerator.GetComponent<WallGenerationScript>();
@@ -38,22 +44,33 @@ public class FoodScript : MonoBehaviour
         OddEvenFixerIntX = (Bounds.x % 2 == 0) ? 1 : 2;
         OddEvenFixerIntY = (Bounds.y % 2 == 0) ? 1 : 2;
         AttemptStochasticPlacement();
-        
-
-
-        
-
-
-
 
 
         bool overlap = false;
         
-        if (GameObject.FindGameObjectWithTag("Player").transform.position.x == transform.position.x && GameObject.FindGameObjectWithTag("Player").transform.position.y == transform.position.y)
+        if (!_HeadScript.GameOver)
+        {
+          
+
+            if (overlap == false)
+            {
+                foreach (GameObject Obj in GameObject.FindGameObjectsWithTag("Body"))
+                {
+                    if (Obj.transform.position.x == transform.position.x && Obj.transform.position.y == transform.position.y)
+                    {
+                        overlap = true;
+                        break;
+                    }
+
+                }
+            }
+        }
+
+
+        if (Player.transform.position.x == transform.position.x && Player.transform.position.y == transform.position.y)
         {
             overlap = true;
         }
-        
 
         if (overlap == false)
         {
@@ -67,32 +84,18 @@ public class FoodScript : MonoBehaviour
                         break;
                     }
                 }
-
-
-
-
             }
         }
 
 
-        if (overlap == false)
-        {
-            foreach (GameObject Obj in GameObject.FindGameObjectsWithTag("Body"))
-            {
-                if (Obj.transform.position.x == transform.position.x && Obj.transform.position.y == transform.position.y)
-                {
-                    overlap = true;
-                    break;
-                }
 
-            }
-        }
 
         ListOfEmptySquares.Clear();
+
         if (overlap == true)
         {
             //Debug.Log("Stochastic Placement Failed");
-            ListOfEmptySquares.Clear();
+
 
             for (int i = 0; i < Bounds.x - 2; i++)
             {
@@ -100,15 +103,33 @@ public class FoodScript : MonoBehaviour
                 {
                     //  Debug.Log(i +","+ j);
                     // WallGenerationScript.IsSnakePosition[0, 0] = false;
-                     // Debug.Log(i + "," + j);
+                    // Debug.Log(i + "," + j);
                     //Debug.Log("WallGenerationScript.IsSnakePosition[i, j]");
 
-                    if (WallGenerationScript.IsSnakePosition[i, j] == false)
+                    if (!_HeadScript.GameOver)
                     {
-                        ListOfEmptySquares.Add(new Vector2(i, j));
+                        if (WallGenerationScript.IsSnakePosition[i, j] == false)
+                        {
+                            ListOfEmptySquares.Add(new Vector2(i, j));
+                        }
                     }
+                    else
+                    {
+                        if (Mathf.RoundToInt(WallGenerationScript.WallLength / 2f) - 1 == i && Mathf.RoundToInt(WallGenerationScript.WallWidth / 2f) - 1 == j)
+                        {
+
+                        }
+                        else
+                        {
+                            ListOfEmptySquares.Add(new Vector2(i, j));
+                        }
+
+                    }
+
+
                 }
             }
+
             //Debug.Log(ListOfEmptySquares.Count);
             if (ListOfEmptySquares.Count != 0)
             {
@@ -161,11 +182,6 @@ public class FoodScript : MonoBehaviour
         MaximumX = Mathf.FloorToInt(Bounds.x / 2) - OddEvenFixerIntX;
         MinimumY = Mathf.FloorToInt(Bounds.y / 2) * -1 + OddEvenFixerIntY;
         MaximumY = Mathf.FloorToInt(Bounds.y / 2) - OddEvenFixerIntY;
-        
-
-
-
-
 
         RandomPos.x = Random.Range(MinumumX, MaximumX);
         RandomPos.y = Random.Range(MinimumY, MaximumY);

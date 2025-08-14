@@ -64,7 +64,7 @@ public class GameLogicScript : MonoBehaviour
         }
 
 
-        //this code is for enableing and disabling the close range camera tracking of the snake
+        //this code is for enabling and disabling the close range camera tracking of the snake
         if (Input.GetKeyDown(KeyCode.T))
         {
             if (AnyActiveMenu == false)
@@ -119,7 +119,6 @@ public class GameLogicScript : MonoBehaviour
         }
     
         if (Input.GetKeyDown(KeyCode.Escape))
-
         {
             if (ActiveSettingsMenu)
             {
@@ -134,17 +133,6 @@ public class GameLogicScript : MonoBehaviour
 
 
         }
-
-
-
-
-
-
-
-
-
-
-
     }
     public void Restart()
     {
@@ -153,6 +141,33 @@ public class GameLogicScript : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         RequireNewGame = false;
     }
+
+    //this function was added much later to fix some annoyances
+    public void FlagRestart()
+    {
+        HeadScript.GameOver = true;
+
+        RequireNewGame = false;
+
+
+    }
+
+    //this function was added much later to fix some annoyances
+    public void Play()
+    {
+        if (HeadScript.GameOver)
+        {
+            Restart();
+        }
+        else
+        {
+            ToggleMenu();
+
+        }
+    }
+
+
+
 
     public void Quit()
     {
@@ -163,7 +178,7 @@ public class GameLogicScript : MonoBehaviour
 
 #endif
 
-        Application.Quit();
+       // Application.Quit();
 
     }
 

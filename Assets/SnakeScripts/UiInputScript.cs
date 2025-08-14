@@ -156,7 +156,7 @@ public class UiInputScript : MonoBehaviour
 
     void Update()
     {
-        if (GameLogicScript.RequireNewGame)
+        if (GameLogicScript.RequireNewGame && !GameLogicScript.HeadScript.GameOver)
         {
             gameObject.GetComponent<TMP_InputField>().interactable = false;
         }

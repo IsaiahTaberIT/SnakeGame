@@ -19,7 +19,7 @@ public class ButtonScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameLogicScript.RequireNewGame)
+        if (GameLogicScript.RequireNewGame && !GameLogicScript.HeadScript.GameOver)
         {
             gameObject.GetComponent<Button>().interactable = false;
         }

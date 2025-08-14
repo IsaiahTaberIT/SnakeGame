@@ -255,7 +255,7 @@ public class HeadScript : MonoBehaviour
             Debug.Log("GameOver");
             GameOver = true;
         }
-        if (collision.gameObject.CompareTag("Food"))
+        if (collision.gameObject.CompareTag("Food") && !GameOver)
         {
             if (GameLogicScript.SpeedUpMode && Wait > WaitFloor)
             {

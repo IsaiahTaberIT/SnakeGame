@@ -41,11 +41,6 @@ public class WallGenerationScript : MonoBehaviour
         
         GenerateNewWall();
 
-        
-
-
-
-
 
     }
 
@@ -70,8 +65,12 @@ public class WallGenerationScript : MonoBehaviour
             }
         }
 
-        int x = (int)Head.transform.position.x + (int)Mathf.RoundToInt(WallLength / 2f) - 1;
-        int y = (int)Head.transform.position.y + (int)Mathf.RoundToInt(WallWidth / 2f) - 1;
+        int x = (int)Mathf.RoundToInt(WallLength / 2f) - 1;
+        int y = (int)Mathf.RoundToInt(WallWidth / 2f) - 1;
+
+
+      //  int x = (int)Head.transform.position.x + (int)Mathf.RoundToInt(WallLength / 2f) - 1;
+      //  int y = (int)Head.transform.position.y + (int)Mathf.RoundToInt(WallWidth / 2f) - 1;
 
         IsSnakePosition[x, y] = true;
 
